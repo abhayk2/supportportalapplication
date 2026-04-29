@@ -1,12 +1,19 @@
 package com.example.supporportalapplicaton.supporportalapplicaton.domain;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
+
+import java.util.Date;
+
 public class HttpResponse {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
+    private Date timestamp;
     private int httpStatusCode;
     private HttpStatus httpStatus;
     private String message;
     private String reason;
 
     public HttpResponse(int httpStatusCode, HttpStatus httpStatus, String message, String reason) {
+        this.timestamp = new Date();
         this.httpStatusCode = httpStatusCode;
         this.httpStatus = httpStatus;
         this.message = message;
@@ -14,6 +21,14 @@ public class HttpResponse {
     }
 
     public HttpResponse() {}
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public String getReason() {
         return reason;

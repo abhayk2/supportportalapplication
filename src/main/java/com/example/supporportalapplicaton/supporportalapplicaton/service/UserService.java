@@ -1,4 +1,4 @@
 package com.example.supporportalapplicaton.supporportalapplicaton.service;
 
-public class UserService {
+public interface UserService {
 }

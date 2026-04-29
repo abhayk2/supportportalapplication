@@ -10,7 +10,7 @@ import static java.util.Arrays.stream;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.supporportalapplicaton.supporportalapplicaton.domain.UserPrincipal;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
