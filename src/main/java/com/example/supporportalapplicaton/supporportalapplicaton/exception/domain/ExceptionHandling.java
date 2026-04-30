@@ -104,7 +104,7 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(value = {NoHandlerFoundException.class})
-    public ResponseEntity<HttpResponse> ioException(NoHandlerFoundException ex) {
+    public ResponseEntity<HttpResponse> ioException() {
         return createHttpResponse(BAD_REQUEST, "This page was not found.");
     }
 
