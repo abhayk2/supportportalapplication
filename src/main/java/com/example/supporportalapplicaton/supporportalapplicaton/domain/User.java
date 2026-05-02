@@ -23,12 +23,12 @@ public class User  implements Serializable {
     private Date joinDate;
     private String roles;
     private String [] authorities;
-    private boolean inActive;
+    private boolean isActive;
     private boolean isNotLocked;
 
     public User() {}
 
-    public User(Long id, String userId, String firstName, String lastName, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String roles, String[] authorities, boolean inActive, boolean isNotLocked) {
+    public User(Long id, String userId, String firstName, String lastName, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String roles, String[] authorities, boolean isActive, boolean isNotLocked) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
@@ -42,7 +42,7 @@ public class User  implements Serializable {
         this.joinDate = joinDate;
         this.roles = roles;
         this.authorities = authorities;
-        this.inActive = inActive;
+        this.isActive = isActive;
         this.isNotLocked = isNotLocked;
     }
 
@@ -150,12 +150,12 @@ public class User  implements Serializable {
         this.authorities = authorities;
     }
 
-    public boolean isInActive() {
-        return inActive;
+    public boolean getIsActive() {
+        return isActive;
     }
 
-    public void setInActive(boolean inActive) {
-        this.inActive = inActive;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public boolean isNotLocked() {

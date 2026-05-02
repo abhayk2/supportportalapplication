@@ -11,7 +11,7 @@ import static java.util.Arrays.stream;
 
 public class UserPrincipal implements UserDetails{
 
-    private User user;
+    private final User user;
 
 
     public UserPrincipal(User user) {
@@ -40,7 +40,7 @@ public class UserPrincipal implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.user.isNotLocked();
+        return true;
     }
 
     @Override
@@ -50,6 +50,6 @@ public class UserPrincipal implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return this.user.isInActive();
+        return this.user.getIsActive();
     }
 }
