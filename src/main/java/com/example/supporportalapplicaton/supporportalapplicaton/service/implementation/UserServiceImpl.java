@@ -30,6 +30,9 @@ import static com.example.supporportalapplicaton.supporportalapplicaton.enumerat
 @Transactional
 @Qualifier("userDetailService")
 public class UserServiceImpl implements UserService, UserDetailsService {
+    public static final String EMAIL_ALREADY_EXISTS = "Email already exists!";
+    public static final String USERNAME_ALREADY_EXISTS = "Username already exists!";
+    public static final String USER_IMAGE_PROFILE_TEMP = "/user/image/profile/temp";
     private final UserRepository userRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -80,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private String getTemporarilyImageUrl() {
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/image/profile/temp").toUriString();
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(USER_IMAGE_PROFILE_TEMP).toUriString();
     }
 
     private String encodePassword(String password) {
@@ -105,20 +108,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new UserNotFoundException("User not found with username: " + currentUserName);
             }
             if (null != userByUsername && !currentUser.getId().equals(userByUsername.getId())) {
-                throw new UserNameExistsException("Username " + newUserName + " already exist ");
+                throw new UserNameExistsException(USERNAME_ALREADY_EXISTS);
             }
 
             if (null != findByEmail && !currentUser.getId().equals(findByEmail.getId())) {
-                throw new EmailExistsException("Email " + findByEmail.getEmail() + " already exist ");
+                throw new EmailExistsException(EMAIL_ALREADY_EXISTS);
             }
 
             return currentUser;
         } else {
             if (null != userByUsername) {
-                throw new UserNameExistsException("Username " + userByUsername.getUsername() + " already Exists! ");
+                throw new UserNameExistsException(USERNAME_ALREADY_EXISTS);
             }
             if (findByEmail != null) {
-                throw new EmailExistsException("Email " + newEmail + " already exists!");
+                throw new EmailExistsException(EMAIL_ALREADY_EXISTS);
             }
             return null;
         }
@@ -126,16 +129,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> getUsers() {
-        return List.of();
+        return userRepository.findAll();
     }
 
     @Override
     public User findUserByUsername(String username) {
-        return null;
+        return userRepository.findUserByUsername(username);
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return null;
+        return userRepository.findUserByEmail(email);
     }
 }
