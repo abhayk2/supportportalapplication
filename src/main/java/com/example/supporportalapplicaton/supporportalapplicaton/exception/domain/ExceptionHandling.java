@@ -22,6 +22,8 @@ import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.*;
 
+// It works like a global try-catch around controllers.
+// It works as a global exception handler for all the controllers. You should not extend this class or autowire.Spring calls it automatically.
 @RestControllerAdvice
 public class ExceptionHandling {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -108,7 +110,7 @@ public class ExceptionHandling {
         return createHttpResponse(BAD_REQUEST, "This page was not found.");
     }
 
-    private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus status, String message) {
+    public ResponseEntity<HttpResponse> createHttpResponse(HttpStatus status, String message) {
         return new ResponseEntity<>(new HttpResponse(status.value(), status, status.getReasonPhrase(), message.toUpperCase()), status);
     }
 
