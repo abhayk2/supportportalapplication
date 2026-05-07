@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userRepository.save(userDetails);
             UserPrincipal userPrincipal = new UserPrincipal(userDetails);
             LOGGER.info("User found by username: {}", username);
-            return userPrincipal; // fix
+            return userPrincipal;
         }
     }
 
