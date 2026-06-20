@@ -6,6 +6,7 @@ import com.example.supporportalapplicaton.exception.domain.EmailExistsException;
 import com.example.supporportalapplicaton.exception.domain.UserNameExistsException;
 import com.example.supporportalapplicaton.exception.domain.UserNotFoundException;
 import com.example.supporportalapplicaton.repository.UserRepository;
+import com.example.supporportalapplicaton.service.LoginAttemptService;
 import com.example.supporportalapplicaton.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private LoginAttemptService loginAttemptService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, LoginAttemptService loginAttemptService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.loginAttemptService = loginAttemptService;
     }
 
     @Override

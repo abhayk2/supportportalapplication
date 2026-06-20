@@ -8,11 +8,11 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthentcationSuccessListener {
+public class AuthenticationSuccessListener {
     private LoginAttemptService loginAttemptService;
 
     @Autowired
-    public AuthentcationSuccessListener(LoginAttemptService loginAttemptService) {
+    public AuthenticationSuccessListener(LoginAttemptService loginAttemptService) {
         this.loginAttemptService = loginAttemptService;
     }
 
