@@ -1,5 +1,7 @@
 package com.example.supporportalapplicaton.domain;
 
+import com.example.supporportalapplicaton.converter.StringArrayConverter;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class User  implements Serializable {
     private Date lastLoginDateDisplay;
     private Date joinDate;
     private String roles;
+    @Convert(converter = StringArrayConverter.class)
     private String [] authorities;
     private boolean isActive;
     private boolean isNotLocked;

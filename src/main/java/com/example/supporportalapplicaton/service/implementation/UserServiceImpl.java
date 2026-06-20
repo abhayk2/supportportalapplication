@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             LOGGER.error("User not found by username: {}", username);
             throw new UsernameNotFoundException("User not found");
         } else {
+            validateLoginAttempt(userDetails);
             userDetails.setLastLoginDateDisplay(userDetails.getLastLoginDate());
             userDetails.setLastLoginDate(new Date());
             userRepository.save(userDetails);
@@ -62,6 +63,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    private void validateLoginAttempt(User user) {
+        if(user.isNotLocked()){
+            if(loginAttemptService.hasExceededMaxAttempts(user.getUsername())){
+                user.setNotLocked(false);
+            }else{
+                user.setNotLocked(true);
+            }
+        }else{
+            loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
+        }
+    }
     @Override
     public User register(String firstName, String lastName, String username, String email) throws UserNotFoundException, UserNameExistsException, EmailExistsException {
         validateNewUsernameAndEmail("", username, email);
@@ -101,7 +113,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return "user" + System.currentTimeMillis();
     }
 
-    private User validateNewUsernameAndEmail(String currentUserName, String newUserName, String newEmail) throws UserNotFoundException, UserNameExistsException, EmailExistsException {
+    private void validateNewUsernameAndEmail(String currentUserName, String newUserName, String newEmail) throws UserNotFoundException, UserNameExistsException, EmailExistsException {
 
         User userByUsername = findUserByUsername(newUserName);
         User findByEmail = findUserByEmail(newEmail);
@@ -118,7 +130,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new EmailExistsException(EMAIL_ALREADY_EXISTS);
             }
 
-            return currentUser;
         } else {
             if (null != userByUsername) {
                 throw new UserNameExistsException(USERNAME_ALREADY_EXISTS);
@@ -126,7 +137,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (findByEmail != null) {
                 throw new EmailExistsException(EMAIL_ALREADY_EXISTS);
             }
-            return null;
         }
     }
 

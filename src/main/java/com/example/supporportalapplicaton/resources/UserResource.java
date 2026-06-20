@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.supporportalapplicaton.constant.SecurityConstant.JWT_TOKEN_HEADER;
@@ -61,7 +60,23 @@ public class UserResource {
     }
 
     private void authenticate(String username, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+        } catch (BadCredentialsException e) {
+            System.out.println("BAD CREDENTIALS: " + e.getMessage());
+            throw e;
+        } catch (DisabledException e) {
+            System.out.println("ACCOUNT DISABLED: " + e.getMessage());
+            throw e;
+        } catch (LockedException e) {
+            System.out.println("ACCOUNT LOCKED: " + e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            System.out.println("OTHER ERROR: " + e.getClass().getName() + " - " + e.getMessage());
+            throw e;
+        }
     }
 
 }

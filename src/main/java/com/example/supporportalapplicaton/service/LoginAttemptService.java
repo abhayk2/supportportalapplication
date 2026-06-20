@@ -28,12 +28,20 @@ public class LoginAttemptService {
         loginAttemptCache.invalidate(username);
     }
 
-    public void addUserToLoginAttemptCache(String username) throws ExecutionException {
+    public void addUserToLoginAttemptCache(String username) {
         int attempt = 0;
+        try {
             attempt = ATTEMPT_INCREMENT+ loginAttemptCache.get(username);
-            loginAttemptCache.put(username, attempt);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        loginAttemptCache.put(username, attempt);
     }
-    public boolean hasExceededMaxAttempts(String username) throws ExecutionException {
-        return loginAttemptCache.get(username)>=MAXIMUM_NUMBER_OF_ATTEMPTS;
+    public boolean hasExceededMaxAttempts(String username) {
+        try {
+            return loginAttemptCache.get(username)>=MAXIMUM_NUMBER_OF_ATTEMPTS;
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
